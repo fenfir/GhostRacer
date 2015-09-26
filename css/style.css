@@ -18,11 +18,16 @@ body {
   background-attachment:scroll;
   background-size:100% 100%;
 }
-.ui-page {
-    background: transparent;
+.ui-page, .ui-content {
+  background: transparent;
 }
-.ui-content{
-    background: transparent;
+
+.start_footer {
+	margin-top: 140px;
+}
+
+.start_footer img {
+	margin-right: 5px;
 }
 
 #new_race .input_with_icon {
@@ -30,11 +35,11 @@ body {
     width: 100%
 }
 
-input {
+#new_race input {
     width: 100%;
 }
 
-img {
+#new_race img {
     position: absolute;
     right: 11px;
     top: 11px;
