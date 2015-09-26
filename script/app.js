@@ -253,3 +253,10 @@ function routeSelected(routeId) {
 
   map.setViewBounds(routeShapeObjects[routeId].getBounds());
 }
+
+function startGhost(route) {
+  var ghost = new Ghost();
+  var marker =  new H.map.Marker(currentLocationMarker.getPosition());
+  ghost.init(route, marker);
+  ghost.start();
+}
