@@ -13,7 +13,7 @@ function initializeMap() {
     // Instantiate (and display) a map object:
     map = new H.Map(
 	document.getElementById('mapContainer'),
-	defaultLayers.normal.map,
+	defaultLayers.normal.transit,
 	{
 	    zoom: 10,
 	    center: { lat: 52.5, lng: 13.4 }
