@@ -19,7 +19,10 @@ function initializeMap() {
 	    center: { lat: 52.5, lng: 13.4 }
     });
 
-	addPolyline(map);
+    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+    var ui = H.ui.UI.createDefault(map, defaultLayers);
+    
+    addPolyline(map);
 }
 
 function addPolyline(map) {
@@ -95,12 +98,15 @@ function getGPSLocation() {
 }
 
 function showPosition(position) {
-    if(map !== null) {	
-	currentLocationMarker = new H.map.Marker({
+    if(map !== null) {
+	var hereLocation = {
 	    lat: position.coords.latitude,
 	    lng: position.coords.longitude
-	});
+	};
+	
+	currentLocationMarker = new H.map.Marker(hereLocation);
 	
 	map.addObject(currentLocationMarker);
+	map.setCenter(hereLocation);
     }
 }
