@@ -1,6 +1,6 @@
 var platform = new H.service.Platform({
   'app_id': 'wAyEN89HTlpRAvac35cq',
-  'app_code': '49DO9r9lVmZaMjVsneEA'
+  'app_code': 'ja49DO9r9lVmZaMjVsneEA'
 });
 
 function initializeMap() {
