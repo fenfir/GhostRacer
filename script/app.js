@@ -254,13 +254,11 @@ function routeSelected(routeId) {
 
 function startGhost(route) {
   var ghost = new Ghost();
-  var marker =  new H.map.Marker(currentLocationMarker.getPosition(), {
-    icon: new H.map.Icon("images/ghosts/pink.png", {
-      size: {
-        w: 40,
-        h: 40
-      }
-    })
+  var ghostIcon = document.createElement('img');
+  ghostIcon.style.cssText = "width: 40px; height: 40px; margin-top: -20px; margin-left: -20px;";
+  ghostIcon.src = "images/ghosts/pink.gif";
+  var marker =  new H.map.DomMarker(currentLocationMarker.getPosition(), {
+    icon: new H.map.DomIcon(ghostIcon)
   });
   ghost.init(route, marker);
   ghost.start();
