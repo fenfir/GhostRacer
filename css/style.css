@@ -10,3 +10,32 @@
 	text-align: center;
 	margin-top: 10px;
 }
+
+body {
+  background-image: url("/images/bg.png") !important;
+  background-repeat:repeat-y;
+  background-position:center center;
+  background-attachment:scroll;
+  background-size:100% 100%;
+}
+.ui-page {
+    background: transparent;
+}
+.ui-content{
+    background: transparent;
+}
+
+#new_race .input_with_icon {
+    position:relative;
+    width: 100%
+}
+
+input {
+    width: 100%;
+}
+
+img {
+    position: absolute;
+    right: 11px;
+    top: 11px;
+}
