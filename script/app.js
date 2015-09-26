@@ -6,11 +6,15 @@ var platform = new H.service.Platform({
 var routeInstructionsContainer = document.getElementById('panel');
 var routeShapeObjects = [];
 var currentLocationMarker;
-var map;
+var map = null;
 var inactivePathColor = 'rgba(0, 0, 0, 0.7)';
 var activePathColor = 'rgba(0, 255, 0, 0.7)';
 
 function initializeMap() {
+  if(map !== null)
+    return;
+
+  console.log("Initializing Map");
   // Obtain the default map types from the platform object:
   var defaultLayers = platform.createDefaultLayers();
 
@@ -27,12 +31,6 @@ function initializeMap() {
     var ui = H.ui.UI.createDefault(map, defaultLayers);
 
     getGPSLocation();
-
-    $("#route-submit").click(
-      function() {
-        geocode(platform, $("#destination").val());
-      }
-    )
 }
 
 function resetMap() {
@@ -92,7 +90,7 @@ function calculateRoute(platform, startLocation, stopLocation) {
       waypoint1: stopLocation.lat + "," + stopLocation.lng,
       routeattributes: 'waypoints,summary,shape,legs',
       maneuverattributes: 'direction,action',
-      alternatives: 3
+      alternatives: 1
     };
 
   router.calculateRoute(
