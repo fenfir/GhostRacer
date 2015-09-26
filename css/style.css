@@ -10,3 +10,37 @@
 	text-align: center;
 	margin-top: 10px;
 }
+
+body {
+  background-image: url("/images/bg.png") !important;
+  background-repeat:repeat-y;
+  background-position:center center;
+  background-attachment:scroll;
+  background-size:100% 100%;
+}
+.ui-page, .ui-content {
+  background: transparent;
+}
+
+.start_footer {
+	margin-top: 140px;
+}
+
+.start_footer img {
+	margin-right: 5px;
+}
+
+#new_race .input_with_icon {
+    position:relative;
+    width: 100%
+}
+
+#new_race input {
+    width: 100%;
+}
+
+#new_race img {
+    position: absolute;
+    right: 11px;
+    top: 11px;
+}
