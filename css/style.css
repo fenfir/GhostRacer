@@ -1,0 +1,12 @@
+.centered {
+	text-align: center;
+}
+
+.borderless {
+	padding: 0;
+}
+
+#start h1 {
+	text-align: center;
+	margin-top: 150px;
+}

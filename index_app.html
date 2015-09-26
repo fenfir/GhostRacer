@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+    <title>Ghost Racer</title>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
+    <link rel="stylesheet" href="css/theme.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
+    <script type="text/javascript">
+        $.mobile.defaultPageTransition = "slide";
+    </script>
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="apple-touch-icon-152x152.png" />
+</head>
+<body>
+    <div data-role="page" id="start">
+        <h1>Ghost Race</h1>
+
+        <div data-role="content" class="ui-content borderless centered">
+            <a href="#new_race" class="ui-btn">New Race</a>
+            <a href="#favourite_routes" class="ui-btn">Favourite Routes</a>
+            <a href="#history" class="ui-btn">History</a>
+        </div>
+
+        <div data-role="footer" data-position="fixed" id="footer">
+            <div data-role="navbar">
+                <ul>
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Settings</a></li>
+                  <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div data-role="page" id="new_race">
+        <div data-role="header">
+            <h1>New Race</h1>
+            <a data-rel="back" data-icon="back" class="ui-btn-left">Back</a>
+        </div>
+        <input type="text" name="start_location" id="start_location" placeholder="Start" value="">
+        <input type="text" name="end_location" id="end_location" placeholder="Destination" value="">
+        <a href="#race" class="ui-btn">Show Routes</a>
+
+    </div>
+
+    <div data-role="page" id="race">
+        <div data-role="header">
+            <h1>Race</h1>
+            <a data-rel="back" data-icon="back" class="ui-btn-left">Back</a>
+        </div>
+        Here we show a map
+
+    </div>
+</body>
+</html>
