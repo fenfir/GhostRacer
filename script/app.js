@@ -1,6 +1,6 @@
 var platform = new H.service.Platform({
-  'app_id': 'wAyEN89HTlpRAvac35cq',
-  'app_code': 'ja49DO9r9lVmZaMjVsneEA'
+  app_id: 'wAyEN89HTlpRAvac35cq',
+  app_code: 'ja49DO9r9lVmZaMjVsneEA'
 });
 
 var routeInstructionsContainer = document.getElementById('panel');
@@ -8,45 +8,47 @@ var currentLocationMarker;
 var map;
 
 function initializeMap() {
-    // Obtain the default map types from the platform object:
-    var defaultLayers = platform.createDefaultLayers();
+  // Obtain the default map types from the platform object:
+  var defaultLayers = platform.createDefaultLayers();
 
-    // Instantiate (and display) a map object:
-    map = new H.Map(
-	document.getElementById('mapContainer'),
-	defaultLayers.normal.transit,
-	{
-	    zoom: 10,
-	    center: { lat: 52.5, lng: 13.4 }
+  // Instantiate (and display) a map object:
+  map = new H.Map(
+    document.getElementById('mapContainer'),
+    defaultLayers.normal.transit,
+    {
+      zoom: 10,
+      center: { lat: 52.5, lng: 13.4 }
     });
 
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     var ui = H.ui.UI.createDefault(map, defaultLayers);
 
+    getGPSLocation();
 }
 
 function getGPSLocation() {
-    if(navigator.geolocation) {
-	console.log("Getting position");
-	navigator.geolocation.getCurrentPosition(showPosition);
-    }
-    else {
-	alert("Browser does not support geolocation.");
-    }
+  if(navigator.geolocation) {
+    console.log("Getting position");
+    navigator.geolocation.getCurrentPosition(showPosition);
+  }
+  else {
+    alert("Browser does not support geolocation.");
+  }
 }
 
 function showPosition(position) {
-    if(map !== null) {
-	var hereLocation = {
-	    lat: position.coords.latitude,
-	    lng: position.coords.longitude
-	};
+  if(map !== null) {
+    var hereLocation = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
 
-	currentLocationMarker = new H.map.Marker(hereLocation);
+    currentLocationMarker = new H.map.Marker(hereLocation);
 
-	map.addObject(currentLocationMarker);
-	map.setCenter(hereLocation);
-    }
+    map.addObject(currentLocationMarker);
+    map.setCenter(hereLocation);
+    map.setZoom(15, true);
+  }
 }
 
 function calculateRoute(platform) {
