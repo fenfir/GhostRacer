@@ -181,3 +181,22 @@ Map.prototype.init = function(latitude, longitude) {
     this.map.removeObjects(this.routeShapeObjects);
     this.routeShapeObjects = [];
   }
+
+  Map.prototype.startGhost = function(route, routeId) {
+    console.log("Starting ghost " + route)
+    var ghost = new Ghost(mapObject);
+    var ghostIcon = document.createElement('img');
+    ghostIcon.style.cssText = "width: 40px; height: 40px; margin-top: -20px; margin-left: -20px;";
+    ghostIcon.src = "images/ghosts/" + ghostColor[routeId%ghostColor.length] + "." + iconFormat;
+    var marker =  new H.map.DomMarker(gpsObject.getLocation(), {
+      icon: new H.map.DomIcon(ghostIcon)
+    });
+    ghost.init(route, marker);
+    ghost.start();
+  }
+
+  Map.prototype.startGhosts = function () {
+    for(var i = 0; i < this.routeShapeObjects.length; i++) {
+      this.startGhost(this.getRoute(i), i);
+    }
+  }

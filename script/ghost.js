@@ -1,14 +1,15 @@
-function Ghost() {
-  var startTime = null;
-  var route = null;
-  var marker = null;
+function Ghost(mapObject) {
+  this.startTime = null;
+  this.route = null;
+  this.marker = null;
+  this.mapObject = mapObject;
 }
 
 Ghost.prototype.init = function (route, marker) {
     this.route = route;
     this.marker = marker;
 
-    map.addObject(marker);
+    this.mapObject.map.addObject(marker);
 };
 
 Ghost.prototype.start = function() {
@@ -23,7 +24,7 @@ Ghost.prototype.start = function() {
 Ghost.prototype.setGhostPosition = function() {
     var currentTime = new Date();
     var traveledTime = (currentTime - this.startTime)/1000;
-
+    var maneuver = null;
     var i = 0;
     do {
       maneuver = this.route.leg[0].maneuver[i];
