@@ -4,8 +4,11 @@ var platform = new H.service.Platform({
 });
 
 var routeInstructionsContainer = document.getElementById('panel');
+var routeShapeObjects = [];
 var currentLocationMarker;
 var map;
+var inactivePathColor = 'rgba(0, 0, 0, 0.7)';
+var activePathColor = 'rgba(0, 255, 0, 0.7)';
 
 function initializeMap() {
   // Obtain the default map types from the platform object:
@@ -75,11 +78,15 @@ function routeCalculationSuccess(result) {
 	console.log("success");
 	console.log(result);
 
-	var route = result.response.route[0];
+  for(var i = 0; i < result.response.route.length; i++) {
+    var route = result.response.route[i];
+	  addRouteShapeToMap(route, 'rgba(0, 0, 0, 0.8)');
+	  addSummaryToPanel(route.summary);
+  }
 
-	addRouteShapeToMap(route, 'rgba(0, 0, 255, 0.7)');
-	addSummaryToPanel(route.summary);
   addRoutesToList(result.response.route);
+
+  map.addObjects(routeShapeObjects);
 }
 
 function routeCalculationError(error) {
@@ -134,14 +141,12 @@ function geocodeError(error) {
 
    polyline = new H.map.Polyline(strip, {
      style: {
-       lineWidth: 4,
+       lineWidth: 10,
        strokeColor: color
      }
    });
-   // Add the polyline to the map
-   map.addObject(polyline);
-   // And zoom to its bounding rectangle
-   map.setViewBounds(polyline.getBounds(), true);
+
+   routeShapeObjects.push(polyline);
  }
 
 /**
@@ -195,5 +200,17 @@ function getRoute(routeId) {
 function routeSelected(routeId) {
   var route = getRoute(routeId);
 
-  addRouteShapeToMap(route, 'rgba(255, 0, 0, 0.7)');
+  for(var i = 0; i < routeShapeObjects.length; i++) {
+    routeShapeObjects[i].setStyle({
+      lineWidth: 10,
+      strokeColor: inactivePathColor
+    });
+  }
+
+  routeShapeObjects[routeId].setStyle({
+    lineWidth: 10,
+    strokeColor: activePathColor
+  });
+
+  map.setViewBounds(routeShapeObjects[routeId].getBounds());
 }
