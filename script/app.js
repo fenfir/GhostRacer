@@ -74,10 +74,12 @@ function calculateRoute(platform) {
 function routeCalculationSuccess(result) {
 	console.log("success");
 	console.log(result);
+
 	var route = result.response.route[0];
 
-	addRouteShapeToMap(route);
+	addRouteShapeToMap(route, 'rgba(0, 0, 255, 0.7)');
 	addSummaryToPanel(route.summary);
+  addRoutesToList(result.response.route);
 }
 
 function routeCalculationError(error) {
@@ -120,27 +122,27 @@ function geocodeError(error) {
  * Creates a H.map.Polyline from the shape of the route and adds it to the map.
  * @param {Object} route A route as received from the H.service.RoutingService
  */
-function addRouteShapeToMap(route){
-  var strip = new H.geo.Strip(),
-    routeShape = route.shape,
-    polyline;
+ function addRouteShapeToMap(route, color){
+   var strip = new H.geo.Strip(),
+     routeShape = route.shape,
+     polyline;
 
-  routeShape.forEach(function(point) {
-    var parts = point.split(',');
-    strip.pushLatLngAlt(parts[0], parts[1]);
-  });
+   routeShape.forEach(function(point) {
+     var parts = point.split(',');
+     strip.pushLatLngAlt(parts[0], parts[1]);
+   });
 
-  polyline = new H.map.Polyline(strip, {
-    style: {
-      lineWidth: 4,
-      strokeColor: 'rgba(0, 128, 255, 0.7)'
-    }
-  });
-  // Add the polyline to the map
-  map.addObject(polyline);
-  // And zoom to its bounding rectangle
-  map.setViewBounds(polyline.getBounds(), true);
-}
+   polyline = new H.map.Polyline(strip, {
+     style: {
+       lineWidth: 4,
+       strokeColor: color
+     }
+   });
+   // Add the polyline to the map
+   map.addObject(polyline);
+   // And zoom to its bounding rectangle
+   map.setViewBounds(polyline.getBounds(), true);
+ }
 
 /**
  * Creates a series of H.map.Marker points from the route and adds them to the map.
@@ -160,4 +162,38 @@ function addSummaryToPanel(summary){
   routeInstructionsContainer.appendChild(summaryDiv);
 }
 
+function addRoutesToList(route) {
+  for(var i = 0; i < route.length; i++) {
+    var routeSummary = $("<div></div>").attr("id", "route" + i);
+    routeSummary.attr("data-id", i);
+    routeSummary.append("<h2>" + route[i].waypoint[0].label + "</h2>");
+    routeSummary.append("<b>" + route[i].leg[0].maneuver[0].instruction + "</b><br/>");
+    routeSummary.append('<b>Total distance</b>: ' + route[i].summary.distance  + 'm. <br/>');
+    routeSummary.append('<b>Travel Time</b>: ' + route[i].summary.travelTime + ' (in current traffic)');
+    routeSummary.click(
+      function () {
+        routeSelected($(this).attr("data-id"));
+      }
+    );
 
+    saveRoute(i, route[i]);
+
+    $("#route_list").append(routeSummary);
+  }
+}
+
+function saveRoute(routeId, route) {
+  console.log("Saving route " + routeId);
+  localStorage.setItem("route" + routeId, JSON.stringify(route));
+}
+
+function getRoute(routeId) {
+  console.log("Retrieving route " + routeId);
+  return JSON.parse(localStorage.getItem("route" + routeId));
+}
+
+function routeSelected(routeId) {
+  var route = getRoute(routeId);
+
+  addRouteShapeToMap(route, 'rgba(255, 0, 0, 0.7)');
+}
