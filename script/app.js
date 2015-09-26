@@ -27,19 +27,35 @@ function initializeMap() {
     var ui = H.ui.UI.createDefault(map, defaultLayers);
 
     getGPSLocation();
+
+    $("#route-submit").click(
+      function() {
+        geocode(platform, $("#destination").val());
+      }
+    )
+}
+
+function resetMap() {
+  localStorage.clear();
+
+  $("#route-list").empty();
+
+  map.removeObjects(routeShapeObjects);
+  routeShapeObjects = [];
 }
 
 function getGPSLocation() {
   if(navigator.geolocation) {
     console.log("Getting position");
-    navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(setPosition);
+    navigator.geolocation.watchPosition(showPosition);
   }
   else {
     alert("Browser does not support geolocation.");
   }
 }
 
-function showPosition(position) {
+function setPosition(position) {
   if(map !== null) {
     var hereLocation = {
       lat: position.coords.latitude,
@@ -48,22 +64,34 @@ function showPosition(position) {
 
     currentLocationMarker = new H.map.Marker(hereLocation);
 
+    showPosition(position);
+
     map.addObject(currentLocationMarker);
     map.setCenter(hereLocation);
     map.setZoom(15, true);
   }
 }
 
-function calculateRoute(platform) {
+function showPosition(position) {
+    var hereLocation = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    };
+
+    currentLocationMarker.setPosition(hereLocation);
+}
+
+function calculateRoute(platform, startLocation, stopLocation) {
+  resetMap();
+
   var router = platform.getRoutingService(),
     routeRequestParams = {
       mode: 'fastest;publicTransport',
       representation: 'display',
-      waypoint0: '52.5208,13.4093', // Fernsehturm
-      waypoint1: '52.5034,13.3280',  // Kurfürstendamm
+      waypoint0: startLocation.lat + "," + startLocation.lng,
+      waypoint1: stopLocation.lat + "," + stopLocation.lng,
       routeattributes: 'waypoints,summary,shape,legs',
       maneuverattributes: 'direction,action',
-      // avoidtransporttypes: 'railMetro,railLight,railRegional,railLight,railRegional,trainRegional',
       alternatives: 3
     };
 
@@ -87,6 +115,8 @@ function routeCalculationSuccess(result) {
   addRoutesToList(result.response.route);
 
   map.addObjects(routeShapeObjects);
+
+  routeSelected(0);
 }
 
 function routeCalculationError(error) {
@@ -98,7 +128,8 @@ function geocode(platform, searchtext) {
   var geocoder = platform.getGeocodingService(),
     geocodingParameters = {
       searchText: searchtext,
-      jsonattributes : 1
+      city: 'berlin',
+      country: 'de'
     };
 
   geocoder.geocode(
@@ -110,12 +141,19 @@ function geocode(platform, searchtext) {
 
 function geocodeSuccess(result) {
 	console.log(result);
-	if(result.response.view.length > 0 && result.response.view[0].result.length > 0) {
-		var locations = result.response.view[0].result;
+	if(result.Response.View.length > 0 && result.Response.View[0].Result.length > 0) {
+		var locations = result.Response.View[0].Result;
 		// TODO: handle multiple results
-		var coords = locations[0].location.displayPosition;
+		var coords = locations[0].Location.DisplayPosition;
 		console.log(coords);
-		// TODO: set a variable or sth like that
+    console.log(currentLocationMarker.getPosition());
+		calculateRoute(platform, {
+      lat: currentLocationMarker.getPosition().lat,
+      lng: currentLocationMarker.getPosition().lng
+    }, {
+      lat: coords.Latitude,
+      lng: coords.Longitude
+    });
 	} else {
 		alert("We have not found your address. Try again.")
 	}
@@ -159,11 +197,12 @@ function addSummaryToPanel(summary){
    content += '<b>Total distance</b>: ' + summary.distance  + 'm. <br/>';
    content += '<b>Travel Time</b>: ' + summary.travelTime + ' (in current traffic)';
 
-
   summaryDiv.style.fontSize = 'small';
   summaryDiv.style.marginLeft ='5%';
   summaryDiv.style.marginRight ='5%';
   summaryDiv.innerHTML = content;
+
+  routeInstructionsContainer.innerHTML = "";
   routeInstructionsContainer.appendChild(summaryDiv);
 }
 
@@ -183,7 +222,7 @@ function addRoutesToList(route) {
 
     saveRoute(i, route[i]);
 
-    $("#route_list").append(routeSummary);
+    $("#route-list").append(routeSummary);
   }
 }
 
