@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.css">
-    <link rel="stylesheet" href="css/theme.min.css" />
+    <link rel="stylesheet" href="css/pacman.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.min.js"></script>
@@ -22,7 +22,7 @@
 </head>
 <body>
     <div data-role="page" id="start">
-        <h1>Ghost Race</h1>
+        <img src="images/logo.png" width="100%" class="logo">
 
         <div data-role="content" class="ui-content borderless centered">
             <a href="#new_race" class="ui-btn">New Race</a>
@@ -48,6 +48,7 @@
         </div>
         <input type="text" name="start_location" id="start_location" placeholder="Start" value="">
         <input type="text" name="end_location" id="end_location" placeholder="Destination" value="">
+
         <a href="#race" class="ui-btn">Show Routes</a>
 
     </div>
