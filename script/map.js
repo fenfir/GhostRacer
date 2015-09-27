@@ -27,8 +27,7 @@ Map.prototype.init = function(latitude, longitude) {
         center: { lat: latitude, lng: longitude }
       });
 
-      var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
-      var ui = H.ui.UI.createDefault(this.map, defaultLayers);
+      var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));      
 
       this.currentLocationMarker = new H.map.Marker({ lat: latitude, lng: longitude });
       this.map.addObject(this.currentLocationMarker);

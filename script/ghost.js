@@ -18,26 +18,34 @@ Ghost.prototype.start = function() {
     var _this = this;
     window.setInterval( function () {
       _this.setGhostPosition();
-    }, 30000);
+    }, 10000);
 };
 
 Ghost.prototype.setGhostPosition = function() {
     var currentTime = new Date();
     var traveledTime = (currentTime - this.startTime)/1000;
-    var maneuver = null;
-    var i = 0;
-    do {
-      maneuver = this.route.leg[0].maneuver[i];
-      traveledTime = traveledTime - maneuver.travelTime;
-      i++;
-    }
-    while(traveledTime > 0);
 
-    console.log(traveledTime);
-    console.log(maneuver);
+    var i = 0;
+    var maneuver = this.route.leg[0].maneuver[i];
+
+    while(traveledTime > maneuver.travelTime) {
+      maneuver = this.route.leg[0].maneuver[i];
+
+      traveledTime = traveledTime - maneuver.travelTime;
+      i++
+    }
+
+    var maneuverPortionTime = maneuver.travelTime / maneuver.shape.length;
+    var segments = parseInt(traveledTime / maneuverPortionTime);
+    console.log(i + ", " + segments);
+
+    var shapeCoord = (segments > maneuver.shape.length ? maneuver.shape[maneuver.shape.length] : maneuver.shape[segments]).split(",");
+
+    //console.log(traveledTime);
+    //console.log(maneuver);
 
     this.marker.setPosition({
-      lat: maneuver.position.latitude,
-      lng: maneuver.position.longitude
+      lat: shapeCoord[0],
+      lng: shapeCoord[1]
     });
 };

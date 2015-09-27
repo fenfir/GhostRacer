@@ -13,7 +13,13 @@ GPS = (function() {
       var _this = this;
       navigator.geolocation.watchPosition(function(position) {
         _this.setLocation(position);
-      });
+      }, null,
+      {
+        enableHighAccuracy: true,
+        timeout: 500,
+        maximumAge: 0
+      }
+    );
     }
     else {
       alert("Browser does not support geolocation.");
@@ -30,7 +36,7 @@ GPS = (function() {
   GPS.prototype.setLocation = function(position) {
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude
-    
+
     console.log("Current Location: " + this.latitude + ", " + this.longitude);
   };
 
