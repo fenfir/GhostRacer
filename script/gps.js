@@ -8,12 +8,12 @@ GPS = (function() {
     this.init();
   }
 
-  GPS.prototype.init = function(mapObject) {
+  GPS.prototype.init = function() {
     if(navigator.geolocation) {
       var _this = this;
       navigator.geolocation.watchPosition(function(position) {
         _this.setLocation(position);
-      }, function(err) { alert(err); },
+      }, null,
       {
         enableHighAccuracy: true,
         timeout: 500,

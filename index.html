@@ -67,7 +67,8 @@
         </div>
 
         <div role="main" style ="width:100%; height:480px;" id="mapContainer"></div>
-        <div id="route-list"></div>
+
+        <div data-role="panel" data-position="right" data-display="overlay" id="route-list"></div>
     </div>
 
     <div data-role="page" id="history">
@@ -140,7 +141,7 @@
     <script>
     var gpsObject = new GPS();
     var mapObject = new Map(gpsObject);
-    
+
     $("#start_location").on("focus", function() {
         // $("#start_location").val(JSON.stringify(gpsObject.getLocation()));
         $("#start_location").val("Current Location");
