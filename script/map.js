@@ -1,5 +1,6 @@
 function Map(gpsObject) {
   this.routeShapeObjects = [];
+  this.routeLabels = [];
   this.routeList = [];
   this.platform = new H.service.Platform({
     app_id: 'wAyEN89HTlpRAvac35cq',
@@ -106,6 +107,8 @@ Map.prototype.init = function(latitude, longitude) {
           icon: new H.map.Icon(labelMarkup)
         });
 
+
+        mapObject.routeLabels.push(labelMarker);
         mapObject.map.addObject(labelMarker);
 
         mapObject.routeShapeObjects.push(polyline);
@@ -205,8 +208,10 @@ Map.prototype.init = function(latitude, longitude) {
 
       if(this.map !== null) {
         this.map.removeObjects(this.routeShapeObjects);
+        this.map.removeObjects(this.routeLabels);
       }
       this.routeShapeObjects = [];
+      this.routeLabels = [];
     }
 
     Map.prototype.startGhost = function(route, routeId) {
