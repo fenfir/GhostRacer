@@ -29,6 +29,7 @@ Map.prototype.init = function(latitude, longitude) {
       });
 
       var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
+      //var mapEvents = new H.mapevents.MapEvents(this.map);
 
       this.currentLocationMarker = new H.map.Marker({ lat: latitude, lng: longitude },
         {data: {
@@ -109,11 +110,17 @@ Map.prototype.init = function(latitude, longitude) {
         labelMarkup = '<svg width="66" height="24" xmlns="http://www.w3.org/2000/svg">' +
         '<rect stroke="blue" fill="blue" x="1" y="1" width="66" height="22" />' +
         '<text x="3" y="18" font-size="12pt" font-family="Arial" font-weight="bold" ' +
-        'text-anchor="left" fill="yellow">Route ' + (i+1) + '</text></svg>';
+        'text-anchor="left" fill="yellow">' + mapObject.buildRouteSummary(route) + '</text></svg>';
         labelMarker =  new H.map.Marker({ lat: labelCoords[0], lng: labelCoords[1] }, {
-          icon: new H.map.Icon(labelMarkup)
-        });
+          icon: new H.map.Icon(labelMarkup),
+          data: { routeId: i } });
 
+        labelMarker.addEventListener('tap', function(evt) {
+          console.log("Marker tapped");
+
+          var data = this.getData();
+          mapObject.routeSelected(data.routeId);
+        });
 
         mapObject.routeLabels.push(labelMarker);
         mapObject.map.addObject(labelMarker);

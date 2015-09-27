@@ -67,7 +67,7 @@
         </div>
 
         <div role="main" style ="width:100%; height:480px;" id="mapContainer"></div>
-        <div id="route-list"></div>
+        <div data-role="panel" data-position="right" data-display="overlay" id="route-list"></div>
         <a href="#popupDialog" data-rel="popup" data-position-to="window" data-transition="pop">f</a>
         <div data-role="popup" id="popupDialog" data-overlay-theme="b" data-theme="b" data-dismissible="false" style="max-width:400px;">
           <div data-role="header" data-theme="a">
@@ -151,7 +151,7 @@
     <script>
     var gpsObject = new GPS();
     var mapObject = new Map(gpsObject);
-    
+
     $("#start_location").on("focus", function() {
         // $("#start_location").val(JSON.stringify(gpsObject.getLocation()));
         $("#start_location").val("Current Location");
