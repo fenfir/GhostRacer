@@ -41,6 +41,9 @@ Map.prototype.init = function(latitude, longitude) {
         this.map.addObject(this.currentLocationMarker);
         this.map.setZoom(15, true);
 
+        var _this = this;
+        document.addEventListener('gpsLocationReceived', function (coords) { _this.currentLocationMarker.setPosition(coords); }, false);
+
         this.isInit = true;
       }
     }
@@ -99,9 +102,9 @@ Map.prototype.init = function(latitude, longitude) {
         });
 
         if(route.shape.length%2 == 0)
-          labelCoords = route.shape[route.shape.length / 2].split(',');
+        labelCoords = route.shape[route.shape.length / 2].split(',');
         else
-          labelCoords = route.shape[Math.floor(route.shape.length / 2)].split(',');
+        labelCoords = route.shape[Math.floor(route.shape.length / 2)].split(',');
 
         labelMarkup = '<svg width="66" height="24" xmlns="http://www.w3.org/2000/svg">' +
         '<rect stroke="blue" fill="blue" x="1" y="1" width="66" height="22" />' +
@@ -168,10 +171,17 @@ Map.prototype.init = function(latitude, longitude) {
     Map.prototype.addRouteToList = function (mapObject, routeId, route) {
       var routeSummary = $("<div></div>").attr("id", "route" + routeId);
       routeSummary.attr("data-id", routeId);
-      routeSummary.append("<h2>" + route.waypoint[0].label + "</h2>");
-      routeSummary.append("<b>" + route.leg[0].maneuver[0].instruction + "</b><br/>");
+
+      var summary = mapObject.buildRouteSummary(route);
+      if(summary.length > 0) {
+        routeSummary.append("<h2>" + summary + "</h2>");
+      }
+      else {
+        routeSummary.append("<h2>" + route.waypoint[0].label + "</h2>");
+      }
+
       routeSummary.append('<b>Total distance</b>: ' + route.summary.distance  + 'm. <br/>');
-      routeSummary.append('<b>Travel Time</b>: ' + route.summary.travelTime + ' (in current traffic)');
+      routeSummary.append('<b>Travel Time</b>: ' + Math.floor(route.summary.travelTime / 60) + ' (in current traffic)');
       routeSummary.click(
         function () {
           mapObject.routeSelected($(this).attr("data-id"));

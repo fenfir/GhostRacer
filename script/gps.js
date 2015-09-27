@@ -1,19 +1,19 @@
 var GPS;
 
 GPS = (function() {
+  var gpsLocationReceived = new Event('gpsLocationReceived');
   function GPS() {
     this.latitude = 0;
     this.longitude = 0;
-
     this.init();
   }
 
-  GPS.prototype.init = function() {
+  GPS.prototype.init = function(mapObject) {
     if(navigator.geolocation) {
       var _this = this;
       navigator.geolocation.watchPosition(function(position) {
         _this.setLocation(position);
-      }, null,
+      }, function(err) { alert(err); },
       {
         enableHighAccuracy: true,
         timeout: 500,
@@ -37,6 +37,7 @@ GPS = (function() {
     this.latitude = position.coords.latitude;
     this.longitude = position.coords.longitude
 
+    document.dispatchEvent(gpsLocationReceived, this.getLocation());
     console.log("Current Location: " + this.latitude + ", " + this.longitude);
   };
 
