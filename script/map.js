@@ -80,7 +80,10 @@ Map.prototype.init = function(latitude, longitude) {
         var route = result.response.route[i];
         var strip = new H.geo.Strip(),
         routeShape = route.shape,
-        polyline;
+        polyline,
+        labelMarker,
+        labelCoords,
+        labelMarkup;
 
         routeShape.forEach(function(point) {
           var parts = point.split(',');
@@ -93,6 +96,17 @@ Map.prototype.init = function(latitude, longitude) {
             strokeColor: inactivePathColor
           }
         });
+
+        labelCoords = route.shape[route.shape.length / 2].split(',');
+        labelMarkup = '<svg width="66" height="24" xmlns="http://www.w3.org/2000/svg">' +
+                      '<rect stroke="blue" fill="blue" x="1" y="1" width="66" height="22" />' +
+                      '<text x="3" y="18" font-size="12pt" font-family="Arial" font-weight="bold" ' +
+                      'text-anchor="left" fill="yellow">Route ' + (i+1) + '</text></svg>';
+        labelMarker =  new H.map.Marker({ lat: labelCoords[0], lng: labelCoords[1] }, {
+          icon: new H.map.Icon(labelMarkup)
+        });
+
+        mapObject.map.addObject(labelMarker);
 
         mapObject.routeShapeObjects.push(polyline);
         mapObject.routeList.push(route);

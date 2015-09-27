@@ -1,6 +1,6 @@
 var inactivePathColor = 'rgba(0, 0, 0, 0.7)';
 var activePathColor = 'rgba(0, 255, 0, 0.7)';
-var iconFormat = "png";
+var iconFormat = "gif";
 var ghostColor = [
 	"red",
 	"blue",
