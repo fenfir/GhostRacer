@@ -43,7 +43,9 @@ Map.prototype.init = function(latitude, longitude) {
         this.map.setZoom(15, true);
 
         var _this = this;
-        document.addEventListener('gpsLocationReceived', function (coords) { _this.currentLocationMarker.setPosition(coords); }, false);
+        document.addEventListener('gpsLocationReceived', function (coords) {
+          _this.currentLocationMarker.setPosition(gpsObject.getLocation())
+        }, false);
 
         this.isInit = true;
       }
@@ -150,7 +152,7 @@ Map.prototype.init = function(latitude, longitude) {
         strokeColor: activePathColor
       });
 
-      this.map.setViewBounds(this.routeShapeObjects[routeId].getBounds());
+      // this.map.setViewBounds(this.routeShapeObjects[routeId].getBounds());
     }
 
     Map.prototype.buildRouteSummary = function(route) {

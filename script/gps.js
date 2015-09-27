@@ -13,7 +13,7 @@ GPS = (function() {
       var _this = this;
       navigator.geolocation.watchPosition(function(position) {
         _this.setLocation(position);
-      }, null,
+      }, function(err) {console.error(err)},
       {
         enableHighAccuracy: true,
         timeout: 500,
