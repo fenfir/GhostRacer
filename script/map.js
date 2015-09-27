@@ -66,6 +66,11 @@ Map.prototype.init = function(latitude, longitude) {
     }
 
     function routingSuccess(mapObject, result) {
+      if(!mapObject.isInit) {
+        var gpsLocation = gpsObject.getLocation();
+        mapObject.init(gpsLocation.lat, gpsLocation.lng)
+      }
+
       mapObject.reset();
 
       console.log("Route success");
@@ -181,7 +186,7 @@ Map.prototype.init = function(latitude, longitude) {
 
     Map.prototype.reset = function () {
       localStorage.clear();
-      
+
       $("#route-list").empty();
 
       if(this.map !== null) {
