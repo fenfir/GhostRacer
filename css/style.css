@@ -29,24 +29,55 @@ body, button, .ui-btn {
 }
 
 .start_footer {
-	margin-top: 140px;
+	margin-top: 125px;
 }
 
 .start_footer img {
-	margin-right: 4px;
+	margin-right: 0px;
 }
 
 #new_race .input_with_icon {
-    position:relative;
-    width: 100%
+  position:relative;
+  width: 100%
 }
 
 #new_race input {
-    width: 100%;
+  width: 100%;
 }
 
 #new_race img {
-    position: absolute;
-    right: 11px;
-    top: 11px;
+  position: absolute;
+  right: 11px;
+  top: 11px;
 }
+
+#history .tablecontainer {
+	padding: 20px;
+}
+
+#history table {
+	width: 100%;
+	border-spacing: 0;
+}
+
+#history table th {
+	text-align: center;
+}
+
+#history table td {
+	text-align: center;
+}
+
+#history table .green td {
+	color: #93fe14;
+}
+
+#history table .red td {
+	color: #fe1414;
+}
+
+#history table .average td {
+	font-style: italic;
+	border-top: 2px solid #FFF;
+}
+
